@@ -174,6 +174,9 @@ class Admin::ContentController < Admin::BaseController
         set_the_flash
         redirect_to :action => 'index'
         return
+      elsif @article.merge
+        debugger
+        
       end
     end
 
