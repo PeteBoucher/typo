@@ -12,3 +12,7 @@ Feature: Merge Articles
     And that the user "pete" has authored the article "My post"
     And I am on the edit page for article "Test"
     Then I should see "Merge Articles"
+
+  Scenario: form input not visible on new article view
+    Given I am on the edit page for a new article
+    Then I should not see "Merge Articles"

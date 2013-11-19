@@ -31,6 +31,8 @@ module NavigationHelpers
       # 
       "/admin/content/edit/#{article_id}"
       # admin_content_path(:edit, article_id)
+    when /^the edit page for a new article$/
+      "/admin/content/new"
 
     else
       begin
