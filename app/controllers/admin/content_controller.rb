@@ -180,6 +180,13 @@ class Admin::ContentController < Admin::BaseController
     @images = Resource.images_by_created_at.page(params[:page]).per(10)
     @resources = Resource.without_images_by_filename
     @macros = TextFilter.macro_filters
+
+    # # Article merge 
+    # current_user # must be admin
+    # @article.state # must not be nil
+    # # Show list of other articles to merge with
+    # @article_list = nil
+
     render 'new'
   end
 

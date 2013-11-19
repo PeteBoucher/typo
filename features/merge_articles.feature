@@ -8,5 +8,7 @@ Feature: Merge Articles
     And I am logged into the admin panel
 
   Scenario: form input visible on edit page
-    Given I am on the edit page for article id "1"
+    Given that the user "admin" has authored the article "Test"
+    And that the user "pete" has authored the article "My post"
+    And I am on the edit page for article "Test"
     Then I should see "Merge Articles"

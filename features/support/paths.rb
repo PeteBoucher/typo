@@ -26,6 +26,11 @@ module NavigationHelpers
 
     when /^the edit page for article id "(\d+)"$/
       "/admin/content/edit/#{$1}"
+    when /^the edit page for article "(.*)"$/
+      article_id = Article.find_by_title($1)[:id]
+      # 
+      "/admin/content/edit/#{article_id}"
+      # admin_content_path(:edit, article_id)
 
     else
       begin
