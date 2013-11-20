@@ -5,6 +5,7 @@ Feature: Comments on each of the two original articles need to all carry over an
 
 	Background:
 		Given the blog is set up
+    And I am logged into the admin panel
 		Given that the user "admin" has authored the article "Test"
 		And that the user "pete" has authored the article "My post"
 		And that the article "Test" has body "This is my fantaboulus test."

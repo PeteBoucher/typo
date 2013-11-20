@@ -6,14 +6,31 @@ Feature: Merge Articles
   Background:
     Given the blog is set up
     And I am logged into the admin panel
-
-  Scenario: form input visible on edit page
     Given that the user "admin" has authored the article "Test"
     And that the user "pete" has authored the article "My post"
+    And that the article "Test" has body "This is my fantaboulus test."
+    And that the article "My post" has body "This is my awesome post."
     And I am on the edit page for article "Test"
+    When I press "Merge"
+
+  Scenario: form input visible on edit page
     Then I should see "Merge Articles"
     Then I press "merge"
 
   Scenario: form input not visible on new article view
     Given I am on the edit page for a new article
     Then I should not see "Merge Articles"
+
+  Scenario: merged article should contain the text of both previous articles.
+    Given I am on the article page for "Test"
+    And I should see "my fantaboulus test"
+    And I should see "my awesome post"
+
+  Scenario: merged article should have one author (either one of the authors of the original article).
+    Given I am on the article page for "Test"
+    Then the author of article "Test" should be "admin"
+    And the author of article "Test" should not be "pete"
+
+  Scenario: title of the new article should be the title from either one of the merged articles.
+
+
