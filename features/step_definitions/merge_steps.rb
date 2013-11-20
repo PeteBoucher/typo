@@ -25,6 +25,31 @@ Given /^that the user "(.*?)" has authored the article "(.*?)"$/ do
       :body => "This is an article created by #{username}."})
 end
 
+Given /^that the article "(.*?)" has body "(.*?)"$/ do |title, text|
+  article = Article.find_by_title(title)
+  article.body = text
+  article.save!
+end
+
+Given /^that the article "(.*?)" has a comment "(.*?)"$/ do |title, text|
+  article = Article.find_by_title(title)
+  article.comments.create({
+    # :type => "Comment",
+    # :title => "A commnet",
+    :author => "admin",
+    :body => text,
+    :user_id => 1})
+  article.save!
+end
+
+Then /^the article "(.*?)" should not exist$/ do |arg1|
+  pending # express the regexp above with the code you wish you had
+end
+
+Then /^the article "(.*?)" should exist$/ do |arg1|
+  pending # express the regexp above with the code you wish you had
+end
+
 # Given /^(?:|I )am on the edit page for article "(.*)"$/ do |page_name|
 
 #   visit admin_content_path("edit", id)
