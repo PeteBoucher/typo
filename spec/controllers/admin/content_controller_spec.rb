@@ -514,12 +514,6 @@ describe Admin::ContentController do
         end
       end
 
-      # My merge method test
-      it 'should merge articles by merge action' do
-        post :edit, 'id' => @article.id
-
-      end
-
       it 'should allow updating body_and_extended' do
         article = @article
         post :edit, 'id' => article.id, 'article' => {
@@ -549,6 +543,38 @@ describe Admin::ContentController do
         end.should change(Article, :count).by(-2)
         Article.should_not be_exists({:id => draft.id})
         Article.should_not be_exists({:id => draft_2.id})
+      end
+
+      describe 'merge two articles' do
+        it 'should detect an edit submission using the merge button' do 
+          pending
+          article = @article
+          post :edit, 'id' => article.id, 'article' => {
+          }, 'merge_with' => '1'
+          param[:merge_with].should == '1'
+        end
+
+        it 'should get the article to be merged' do
+          article = @article
+          @article.stub(:merge_with)
+          post :edit, 'id' => article.id, 'article' => article, 'merge_with' => '1'
+          assigns @donor_article
+        end
+
+        it 'should use the model to merge the content of both previous articles' do
+          article = @article
+          donor = Factory(:article, :published => false, :state => 'draft')
+          # donor = Article.create!(article.attributes.merge(:id => 2, :guid => nil))
+
+          # @article.stub(:merge_with)
+          article.should_receive(:merge_with) #.with(donor.id)
+          post :edit, 'id' => article.id, 'article' => article, 'merge_with' => donor.id
+
+        end
+
+        it 'should delete the article that was merged into this one' do
+          pending
+        end
       end
     end
 

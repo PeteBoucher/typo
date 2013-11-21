@@ -71,6 +71,12 @@ class Article < Content
     end
   end
 
+  def merge_with(donor_id)
+    # get donor article
+    donor = Article.find(donor_id)
+    debugger
+  end
+
   def set_permalink
     return if self.state == 'draft'
     self.permalink = self.title.to_permalink if self.permalink.nil? or self.permalink.empty?

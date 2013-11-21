@@ -26,6 +26,13 @@ describe Article do
     assert_equal [:body, :extended], a.content_fields
   end
 
+  describe "merge_with" do
+    it 'should accept a donor article' do
+      Article.merge_with()
+      assigns donor
+    end
+  end
+
   describe "#permalink_url" do
     describe "with hostname" do
       subject { Article.new(:permalink => 'article-3', :published_at => Time.new(2004, 6, 1)).permalink_url(anchor=nil, only_path=false) }
