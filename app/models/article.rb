@@ -75,7 +75,12 @@ class Article < Content
     # get donor article
     # debugger
     donor = Article.find(donor_id)
+
     self.body += donor.body
+    self.comments << donor.comments
+
+    self.save!
+    donor.delete
   end
 
   def set_permalink

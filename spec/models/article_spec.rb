@@ -44,12 +44,27 @@ describe Article do
 
     it 'should append the contents of the article with the content from the donor' do
       # a = stub_model(Article, :id => 123, :body => 'Is it worth the trouble?')
-
       Article.should_receive(:find).with(2).and_return(@donor)
 
       @article.merge_with(2)
 
       @article.body.should == 'Is it worth the trouble?' + @donor.body
+    end
+
+    it 'should append all comments from donor to article'  do
+      comment = Factory(:comment, :body => 'that rocks')
+      @donor.comments << comment
+
+      @article.merge_with(2)
+
+      @article.comments.count.should == 1
+    end
+
+    it 'should delete the donor article' do
+      Article.should_receive(:find).with(2).and_return(@donor)
+      @donor.should_receive(:delete)
+
+      @article.merge_with(2)
     end
   end
 
