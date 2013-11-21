@@ -73,8 +73,9 @@ class Article < Content
 
   def merge_with(donor_id)
     # get donor article
+    # debugger
     donor = Article.find(donor_id)
-    debugger
+    self.body += donor.body
   end
 
   def set_permalink

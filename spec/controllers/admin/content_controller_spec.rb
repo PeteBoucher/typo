@@ -567,7 +567,8 @@ describe Admin::ContentController do
           # donor = Article.create!(article.attributes.merge(:id => 2, :guid => nil))
 
           # @article.stub(:merge_with)
-          article.should_receive(:merge_with) #.with(donor.id)
+          # Article.stub(:get_or_build_article).and_return(article)
+          Article.any_instance.should_receive(:merge_with).with(donor.id)
           post :edit, 'id' => article.id, 'article' => article, 'merge_with' => donor.id
 
         end
