@@ -156,7 +156,7 @@ class Admin::ContentController < Admin::BaseController
       end
       # merge articles
       # debugger
-      if params[:merge_with]
+      if params[:merge_with] && current_user.admin?
         # @donor_article = Article.find(params[:merge_with])
         @article.merge_with(params[:merge_with])
       end

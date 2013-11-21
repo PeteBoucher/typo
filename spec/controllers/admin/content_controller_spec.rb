@@ -462,6 +462,12 @@ describe Admin::ContentController do
 
   end
 
+  it 'should_not merge articles if the current user is not an administrator' do
+    article = Factory(:article, :id => 111)
+    article.should_not_receive(:merge_with)
+    post :edit, 'id' => article.id, 'merge_with' => 2
+  end
+
 
   describe 'with admin connection' do
 
