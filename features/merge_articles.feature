@@ -11,11 +11,12 @@ Feature: Merge Articles
     And that the article "Test" has body "This is my fantaboulus test."
     And that the article "My post" has body "This is my awesome post."
     And I am on the edit page for article "Test"
+    And I fill in "merge_with" with "4"
     When I press "Merge"
 
   Scenario: form input visible on edit page
+    Then show me the page
     Then I should see "Merge Articles"
-    Then I press "merge"
 
   Scenario: form input not visible on new article view
     Given I am on the edit page for a new article
