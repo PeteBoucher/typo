@@ -158,7 +158,6 @@ class Admin::ContentController < Admin::BaseController
       # debugger
       if params[:merge_with] && current_user.admin?
         @article.merge_with(params[:merge_with])
-        render 'new'
       end
     end
 
