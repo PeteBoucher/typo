@@ -160,7 +160,6 @@ class Admin::ContentController < Admin::BaseController
         # @donor_article = Article.find(params[:merge_with])
         @article.merge_with(params[:merge_with])
       end
-      # debugger
     end
 
     @article.keywords = Tag.collection_to_string @article.tags

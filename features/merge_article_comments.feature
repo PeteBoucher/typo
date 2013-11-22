@@ -15,7 +15,8 @@ Feature: Comments on each of the two original articles need to all carry over an
 		And I am on the edit page for article "Test"
 
 	Scenario:
-		When I press "Merge"
+		When I fill in "merge_with" with "4"
+		And I press "Merge"
 		Then the article "My post" should not exist
 		And the article "Test" should exist
 		Given I am on the page for article "Test"

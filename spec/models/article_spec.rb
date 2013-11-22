@@ -28,8 +28,8 @@ describe Article do
 
   describe "merge_with" do
     before :each do
-      @article = Factory(:article, :id => 123, :body => 'Is it worth the trouble?', :published_at => Time.utc(2003, 8, 12))
-      @donor = Factory(:article, :id => 2, :body => 'Sometimes I wonder.', :published_at => Time.utc(2004, 6, 1))
+      @article = Factory(:article, :body => 'Is it worth the trouble?', :published_at => Time.utc(2003, 8, 12))
+      @donor = Factory(:article, :body => 'Sometimes I wonder.', :published_at => Time.utc(2004, 6, 1))
     end
 
     it 'should find a donor article' do
@@ -37,16 +37,16 @@ describe Article do
       # @article.stub(:body).and_return('text')
       # donor = Factory(:article, :id => 2, :permalink => 'article-2', :published_at => Time.utc(2004, 6, 1))
       # donor.save!
-      Article.should_receive(:find).with(2).and_return(@donor)
+      Article.should_receive(:find).with(@donor.id).and_return(@donor)
 
-      @article.merge_with(2)
+      @article.merge_with(@donor.id)
     end
 
-    it 'should append the contents of the article with the content from the donor' do
+    it 'should create an article with the text of both original articles' do
       # a = stub_model(Article, :id => 123, :body => 'Is it worth the trouble?')
-      Article.should_receive(:find).with(2).and_return(@donor)
+      Article.should_receive(:find).with(@donor.id).and_return(@donor)
 
-      @article.merge_with(2)
+      @article.merge_with(@donor.id)
 
       @article.body.should == 'Is it worth the trouble?' + @donor.body
     end
@@ -54,18 +54,26 @@ describe Article do
     it 'should append all comments from donor to article'  do
       comment = Factory(:comment, :body => 'that rocks')
       @donor.comments << comment
+      @article.comments << Factory(:comment, :body => 'naaice')
+      @article.save! @donor.save!
+      
+      Article.should_receive(:find).with(@donor.id).and_return(@donor)
 
-      @article.merge_with(2)
+      @article.merge_with(@donor.id)
 
-      @article.comments.count.should == 1
+      @article.comments.should include(comment)
     end
 
     it 'should delete the donor article' do
-      Article.should_receive(:find).with(2).and_return(@donor)
+      Article.should_receive(:find).with(@donor.id).and_return(@donor)
       @donor.should_receive(:delete)
 
-      @article.merge_with(2)
+      @article.merge_with(@donor.id)
     end
+
+    # after :each do
+    #   @donor.delete
+    # end
   end
 
   describe "#permalink_url" do
