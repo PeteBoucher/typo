@@ -468,7 +468,6 @@ describe Admin::ContentController do
     post :edit, 'id' => article.id, 'merge_with' => 2
   end
 
-
   describe 'with admin connection' do
 
     before do
