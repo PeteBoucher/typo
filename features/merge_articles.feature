@@ -11,23 +11,22 @@ Feature: Merge Articles
     And that the article "Test" has body "This is my fantaboulus test."
     And that the article "My post" has body "This is my awesome post."
     And I am on the edit page for article "Test"
+    And I fill in "merge_with" with "4"
     When I press "Merge"
 
   Scenario: form input visible on edit page
+    Then show me the page
     Then I should see "Merge Articles"
-    Then I press "merge"
 
   Scenario: form input not visible on new article view
     Given I am on the edit page for a new article
     Then I should not see "Merge Articles"
 
   Scenario: merged article should contain the text of both previous articles.
-    Given I am on the article page for "Test"
-    And I should see "my fantaboulus test"
-    And I should see "my awesome post"
+    Then the article "Test" should contain "my fantaboulus test"
+    And the article "Test" should contain "my awesome post"
 
   Scenario: merged article should have one author (either one of the authors of the original article).
-    Given I am on the article page for "Test"
     Then the author of article "Test" should be "admin"
     And the author of article "Test" should not be "pete"
 

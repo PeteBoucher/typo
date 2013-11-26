@@ -462,12 +462,6 @@ describe Admin::ContentController do
 
   end
 
-  it 'should_not merge articles if the current user is not an administrator' do
-    article = Factory(:article, :id => 111)
-    article.should_not_receive(:merge_with)
-    post :edit, 'id' => article.id, 'merge_with' => 2
-  end
-
   describe 'with admin connection' do
 
     before do
@@ -705,6 +699,16 @@ describe Admin::ContentController do
           get :destroy, :id => article.id
           response.should redirect_to(:action => 'index')
         end.should_not change(Article, :count)
+      end
+
+    end
+
+    describe 'merge action' do
+
+      it 'should_not merge articles if the current user is not an administrator' do
+        article = Factory(:article)
+        Article.any_instance.should_not_receive(:merge_with)
+        post :edit, 'id' => article.id, 'article' => article, 'merge_with' => '2'
       end
 
     end

@@ -154,11 +154,6 @@ class Admin::ContentController < Admin::BaseController
           @article = Article.find(@article.parent_id)
         end
       end
-      # merge articles
-      # debugger
-      if params[:merge_with] && current_user.admin?
-        @article.merge_with(params[:merge_with])
-      end
     end
 
     @article.keywords = Tag.collection_to_string @article.tags
@@ -168,6 +163,12 @@ class Admin::ContentController < Admin::BaseController
     @article.published_at = DateTime.strptime(params[:article][:published_at], "%B %e, %Y %I:%M %p GMT%z").utc rescue Time.parse(params[:article][:published_at]).utc rescue nil
 
     if request.post?
+      if params[:merge_with] && current_user.admin?
+        # Send a message to the model to fetch another article and merge it's content into this one
+        @article.merge_with(params[:merge_with])
+        # @article.reload
+      end
+
       set_article_author
       save_attachments
       
@@ -177,7 +178,11 @@ class Admin::ContentController < Admin::BaseController
         destroy_the_draft unless @article.draft
         set_article_categories
         set_the_flash
-        redirect_to :action => 'index'
+        if params[:merge_with]
+          redirect_to :action => 'edit', :id => @article.id
+        else
+          redirect_to :action => 'index'
+        end
         return       
       end
     end
