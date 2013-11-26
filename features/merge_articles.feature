@@ -23,12 +23,10 @@ Feature: Merge Articles
     Then I should not see "Merge Articles"
 
   Scenario: merged article should contain the text of both previous articles.
-    Given I am on the article page for "Test"
-    And I should see "my fantaboulus test"
-    And I should see "my awesome post"
+    Then the article "Test" should contain "my fantaboulus test"
+    And the article "Test" should contain "my awesome post"
 
   Scenario: merged article should have one author (either one of the authors of the original article).
-    Given I am on the article page for "Test"
     Then the author of article "Test" should be "admin"
     And the author of article "Test" should not be "pete"
 

@@ -19,6 +19,5 @@ Feature: Comments on each of the two original articles need to all carry over an
 		And I press "Merge"
 		Then the article "My post" should not exist
 		And the article "Test" should exist
-		Given I am on the page for article "Test"
-		Then I should see "It worked!"
-		And I should see "Truly awesome."
+		And the article "Test" should have a comment "It worked!"
+		And the article "Test" should have a comment "Truly awesome."

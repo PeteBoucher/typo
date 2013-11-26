@@ -140,7 +140,6 @@ class Admin::ContentController < Admin::BaseController
   def real_action_for(action); { 'add' => :<<, 'remove' => :delete}[action]; end
 
   def new_or_edit
-    debugger
     id = params[:id]
     id = params[:article][:id] if params[:article] && params[:article][:id]
     @article = Article.get_or_build_article(id)
@@ -155,8 +154,6 @@ class Admin::ContentController < Admin::BaseController
           @article = Article.find(@article.parent_id)
         end
       end
-      # merge articles
-      # debugger
     end
 
     @article.keywords = Tag.collection_to_string @article.tags
@@ -167,6 +164,7 @@ class Admin::ContentController < Admin::BaseController
 
     if request.post?
       if params[:merge_with] && current_user.admin?
+        # Send a message to the model to fetch another article and merge it's content into this one
         @article.merge_with(params[:merge_with])
         # @article.reload
       end

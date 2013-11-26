@@ -42,12 +42,38 @@ Given /^that the article "(.*?)" has a comment "(.*?)"$/ do |title, text|
   article.save!
 end
 
-Then /^the article "(.*?)" should not exist$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+Then /^the author of article "(.*)" should be "(.*)"$/ do |title, username|
+  article = Article.find_by_title(title)
+  user = User.find_by_name(username)
+  article.author == user.id
 end
 
-Then /^the article "(.*?)" should exist$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+Then /^the author of article "(.*)" should not be "(.*)"$/ do |title, username|
+  article = Article.find_by_title(title)
+  user = User.find_by_name(username)
+  article.author != user.id
+end
+
+Then /^the article "(.*?)" should contain "(.*?)"$/ do |title, content|
+  article = Article.find_by_title(title)
+  article.body.should =~ /#{content}/
+end
+
+Then /^the article "(.*?)" should not exist$/ do |title|
+  Article.find_by_title(title).should be_nil
+end
+
+Then /^the article "(.*?)" should exist$/ do |title|
+  Article.find_by_title(title)
+end
+
+Then /^the article "(.*?)" should have a comment "(.*?)"$/ do |title, comment|
+  article = Article.find_by_title(title)
+  article.comments.each do |comment|
+    if comment.body =~ /#{comment}/
+      return true
+    end
+  end
 end
 
 # Given /^(?:|I )am on the edit page for article "(.*)"$/ do |page_name|
